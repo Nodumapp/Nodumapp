@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import styles from "../styles/Login.module.css";
 
+
 export default function Login() {
   const [showPass, setShowPass] = useState(false);
 
@@ -11,7 +12,7 @@ export default function Login() {
       <div className={styles.left}>
         <header className={styles.header}>
           {/* pone tu logo en /public y cambia el src si querés */}
-          <img src="/images/Nodum Logo solo color sin slogan (1).png" alt="Nodum" className={styles.logo} />
+        <Link to="/"> <img src={process.env.PUBLIC_URL + "/images/Nodum-Logo-solo-color-sin-slogan (1).png"} alt="Nodum" className={styles.logo} /></Link>
         </header>
 
         <main className={styles.main}>
@@ -100,7 +101,7 @@ export default function Login() {
       <aside className={styles.right}>
         {/* Cambiá la imagen por la tuya */}
         <div className={styles.hero}>
-          <img src="/images/chamfjord-muUX3rENBX0-unsplash.jpg" alt="Fondo" />
+          <img src={process.env.PUBLIC_URL + "/images/chamfjord-muUX3rENBX0-unsplash.jpg"} alt="Fondo" />
           <div className={styles.overlay}>
             <h2 className={styles.bigline}>
               <span className={styles.bold}><span className={styles.kicker}>Un</span> ecosistema</span><br />

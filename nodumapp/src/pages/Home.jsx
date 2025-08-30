@@ -87,15 +87,15 @@ export default function Home() {
                 footer_legal: "Legales",
                 card4_title: "Agenda Inteligente",
                 card4_text:
-                    "Organizá tus reuniones y tareas con recordatorios automáticos.",
+                    "Organiza tus reuniones y tareas de manera sencilla, con recordatorios automáticos y sincronización en todos tus dispositivos.",
                 card3_title: "Tienda Online",
-                card3_text: "Vendé tus productos con un sistema seguro y moderno.",
+                card3_text: "Vende tus productos fácilmente con un sistema seguro, moderno y con opciones de pago integradas.",
                 card2_title: "Sistema de Gestión / ERP",
                 card2_text:
-                    "Controlá procesos y recursos con reportes en tiempo real.",
+                    "Controla tus procesos, equipos y recursos desde un solo lugar con reportes y análisis en tiempo real.",
                 card1_title: "Ecosistema Integrado",
                 card1_text:
-                    "Agenda, gestión y ventas se sincronizan para que tu negocio fluya.",
+                    "Todas nuestras aplicaciones trabajan en conjunto. Agenda, gestión y ventas se sincronizan automáticamente para que tu negocio fluya sin fricciones.",
             },
             en: {
                 nav_home: "Home",
@@ -165,16 +165,16 @@ export default function Home() {
                 footer_legal: "Legals",
                 card4_title: "Smart Agenda",
                 card4_text:
-                    "Organize meetings and tasks with automatic reminders.",
+                    "Organize your meetings and tasks easily, with automatic reminders and synchronization across all your devices.",
                 card3_title: "Online Store",
                 card3_text:
-                    "Sell your products with a secure and modern system.",
+                    "Sell your products easily with a secure, modern system and integrated payment options.",
                 card2_title: "Management System / ERP",
                 card2_text:
-                    "Control processes and resources with real-time reports.",
+                    "Control your processes, teams, and resources from a single place with real-time reports and analytics.",
                 card1_title: "Integrated Ecosystem",
                 card1_text:
-                    "Scheduling, management, and sales sync automatically.",
+                    "All our applications work together. Scheduling, management, and sales sync automatically so your business flows without friction.",
             },
         };
 
