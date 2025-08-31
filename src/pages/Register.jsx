@@ -207,17 +207,18 @@ export default function Register() {
         </main>
       </div>
 
-      <aside className="register-right">
-        <div className="register-hero">
+       {/* Columna derecha */}
+      <aside className={styles.right}>
+        <div className={styles.hero}>
           <img
             src={process.env.PUBLIC_URL + "/images/chamfjord-muUX3rENBX0-unsplash.jpg"}
             alt="Fondo"
           />
-          <div className="register-overlay">
-            <h2 className="register-bigline">
-              <span className="register-bold"><span className="register-kicker">Un</span> ecosistema</span><br />
+          <div className={styles.overlay}>
+            <h2 className={styles.bigline}>
+              <span className={styles.bold}><span className={styles.kicker}>Un</span> ecosistema</span><br />
               de soluciones,<br />
-              <span className="register-bold">activables</span> según<br />
+              <span className={styles.bold}>activables</span> según<br />
               tu necesidad.
             </h2>
           </div>
