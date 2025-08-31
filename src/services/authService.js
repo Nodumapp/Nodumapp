@@ -1,24 +1,48 @@
 // src/services/authService.js
-const API_URL = process.env.REACT_APP_API_URL ?? "http://localhost:8080";
 
-async function parseJsonSafe(res) {
-  const text = await res.text();
-  try { return JSON.parse(text); } catch { return null; }
-}
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
-export async function authLogin({ email, password }) {
+/**
+ * Inicia sesión
+ * Espera que el backend devuelva { accessToken, refreshToken?, user? }
+ */
+export async function authLogin(email, password) {
   const res = await fetch(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password }),
   });
 
+  // Intenta leer el cuerpo siempre para exponer mensaje de error del backend
+  let data = null;
+  try { data = await res.json(); } catch {}
+
   if (!res.ok) {
-    const err = await parseJsonSafe(res);
-    throw new Error(err?.message || `Login failed (${res.status})`);
+    const msg = (data && (data.message || data.error)) || `Error ${res.status}`;
+    throw new Error(msg);
   }
-  return res.json(); // { accessToken, refreshToken?, user? } (ajusta a tu backend)
+  return data; // { accessToken, refreshToken?, user? }
 }
 
-// si quieres, puedes exportar más funciones aquí (register, me, etc.)
-export default { authLogin };
+/**
+ * Registro de usuario
+ * payload: { firstName, lastName, email, password }
+ * Ajustá el shape si tu backend espera otros nombres.
+ */
+export async function authRegister(payload) {
+  const res = await fetch(`${API_URL}/auth/register`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  let data = null;
+  try { data = await res.json(); } catch {}
+
+  if (!res.ok) {
+    const msg = (data && (data.message || data.error)) || `Error ${res.status}`;
+    throw new Error(msg);
+  }
+  return data; // muchos backends devuelven el usuario creado
+}
+

@@ -10,5 +10,7 @@ api.interceptors.request.use((config) => {
   if (token) config.headers.Authorization = `Bearer ${token}`;
   return config;
 });
+// src/api/client.js
+console.log('API_BASE =', process.env.REACT_APP_API_BASE);
 
 export default api;
