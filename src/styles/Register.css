@@ -47,14 +47,14 @@ body {
 }
 
 .register-logo {
-    height: 48px;
+    height: 50px;
     width: auto;
     background: none;
 }
 
 .register-main {
     max-width: 720px;
-    width: 100%;
+    width: 80%;
     margin: 0 auto;
     padding-top: 12px;
 }

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "../styles/Register.css"; // CSS global (no module)
 import styles from "../styles/Login.module.css";
 import { authRegister, authLogin } from "../services/authService";
+import Login from "./Login";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -198,7 +199,10 @@ export default function Register() {
             >
               {loading ? "Creando cuenta..." : "Registrarse"}
             </button>
-
+<p className={styles.bottomNote}>
+              ¿ya tenés cuenta?{" "}
+              <Link to="/Login" className={styles.link}>Inicia Sesion</Link>
+            </p>
           </form>
         </main>
       </div>
