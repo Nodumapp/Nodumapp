@@ -406,7 +406,7 @@ export default function Home() {
                                         </li>
                                     </ul>
                                 </div>
-                                <button type="button" className="btn" data-i18n="btn_register">Registrarme</button>
+                                <Link to="/Register"  className="link-registrarme" ><button type="button" className="btn" data-i18n="btn_register">Registrarme</button></Link>
                                 <Link to="/Login"><button type="button" className="btn btn-primary" data-i18n="btn_login">Ingresar</button></Link>
                             </div>
                         </div>
