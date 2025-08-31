@@ -4,6 +4,7 @@ import "../styles/Register.css"; // CSS global (no module)
 import styles from "../styles/Login.module.css";
 import { authRegister, authLogin } from "../services/authService";
 import Login from "./Login";
+import Panel from "./Panel";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -192,14 +193,14 @@ export default function Register() {
                 Facebook
               </button>
             </div>
-            <button
+           <Link to="/Panel"><button
               type="submit"
               className="register-primaryBtn"
               disabled={loading}
             >
               {loading ? "Creando cuenta..." : "Registrarse"}
-            </button>
-<p className={styles.bottomNote}>
+            </button></Link> 
+            <p className={styles.bottomNote}>
               ¿ya tenés cuenta?{" "}
               <Link to="/Login" className={styles.link}>Inicia Sesion</Link>
             </p>
@@ -207,7 +208,7 @@ export default function Register() {
         </main>
       </div>
 
-       {/* Columna derecha */}
+      {/* Columna derecha */}
       <aside className={styles.right}>
         <div className={styles.hero}>
           <img

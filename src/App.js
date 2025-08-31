@@ -4,7 +4,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-
+import Panel from "./pages/Panel";
 
 function App() {
   return (
@@ -12,6 +12,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/panel" element={<Panel />} />
         {/* ruta principal de tu app */}
         <Route path="/" element={<Home />} />
       </Routes>
