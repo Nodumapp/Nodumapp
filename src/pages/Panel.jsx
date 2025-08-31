@@ -42,7 +42,7 @@ export default function Panel() {
 
           <Link to="/" className="brandLink">
             <BrandMark />
-            <span className="brandText">NODUM</span>
+            <img src="/images/Nodum Logo solo color sin slogan.png" alt="" />
           </Link>
         </div>
 

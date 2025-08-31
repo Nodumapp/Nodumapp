@@ -62,7 +62,7 @@ export default function Register() {
         localStorage.removeItem("rememberEmail");
       }
 
-      navigate("/"); // redirigí a donde quieras
+      navigate("/Panel"); // redirigí a donde quieras
     } catch (err) {
       const msg = err?.message || "Error registrando usuario";
       setError(msg);
@@ -193,13 +193,13 @@ export default function Register() {
                 Facebook
               </button>
             </div>
-           <Link to="/Panel"><button
+         <button
               type="submit"
               className="register-primaryBtn"
               disabled={loading}
             >
               {loading ? "Creando cuenta..." : "Registrarse"}
-            </button></Link> 
+            </button>
             <p className={styles.bottomNote}>
               ¿ya tenés cuenta?{" "}
               <Link to="/Login" className={styles.link}>Inicia Sesion</Link>

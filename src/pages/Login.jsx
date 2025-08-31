@@ -55,7 +55,7 @@ export default function Login() {
       }
 
       // redirigí donde quieras
-      navigate("/");
+      navigate("/Panel");
     } catch (err) {
       setError(err?.message || "Error iniciando sesión");
     } finally {
@@ -140,13 +140,13 @@ export default function Login() {
               <Link to="#" className={styles.link}>¿Olvidaste tu contraseña?</Link>
             </div>
 
-            <Link to="/Panel"><button
+            <button
               type="submit"
               className={styles.primaryBtn}
               disabled={loading}
             >
               {loading ? "Ingresando..." : "Ingresar"}
-            </button></Link>
+            </button>
 
             <div className={styles.divider}>
               <span>o ingresar con</span>
