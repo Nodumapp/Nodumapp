@@ -1,36 +1,41 @@
-// src/App.js
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Panel from "./pages/Panel";
-import RequireAuth from "./routes/RequireAuth"; // <- ver punto 2
+// src/services/api.js
+const isDev = process.env.NODE_ENV === "development";
 
-import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.bundle.min.js";
+// En dev permitimos localhost; en producción EXIGIMOS REACT_APP_API_URL
+const API_BASE = isDev
+  ? (process.env.REACT_APP_API_URL || "http://localhost:3001") // solo en dev
+  : (process.env.REACT_APP_API_URL || ""); // en prod no debe quedar vacío
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-
-        <Route
-          path="/panel"
-          element={
-            <RequireAuth>
-              <Panel />
-            </RequireAuth>
-          }
-        />
-
-        <Route path="*" element={<div>404</div>} />
-      </Routes>
-    </Router>
-  );
+if (!API_BASE && !isDev) {
+  // Evita builds/ejecución en Vercel apuntando a localhost
+  throw new Error("REACT_APP_API_URL no está configurada para producción.");
 }
 
-export default App;
+export async function http(path, { method = "GET", body, headers, auth = false } = {}) {
+  const token = auth ? localStorage.getItem("accessToken") : null;
+
+  const res = await fetch(`${API_BASE}${path}`, {
+    method,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...headers,
+    },
+    body: body ? JSON.stringify(body) : undefined,
+    credentials: "include",
+  });
+
+  const text = await res.text();
+  let payload = null;
+  try { payload = text ? JSON.parse(text) : null; } catch { payload = text || null; }
+
+  if (!res.ok) {
+    const message = (payload && (payload.message || payload.error)) || `${res.status} ${res.statusText}`;
+    const err = new Error(message);
+    err.status = res.status;
+    err.payload = payload;
+    throw err;
+  }
+  return payload;
+}
+
