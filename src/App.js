@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Panel from "./pages/Panel";
 import RequireAuth from "./pages/RequireAuth"; // o "./pages/RequireAuth"
+import AgendaApp from "./agenda/AgendaApp";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -26,7 +27,7 @@ function App() {
             </RequireAuth>
           }
         />
-
+        <Route path="/agenda/*" element={<RequireAuth><AgendaApp /></RequireAuth>} />
         <Route path="*" element={<div>404</div>} />
       </Routes>
     </Router>

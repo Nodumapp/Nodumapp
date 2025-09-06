@@ -1,0 +1,130 @@
+/* ================================
+   AGENDA STYLE (sobre el tema Nodum)
+   ================================ */
+
+/* Layout interno de la Agenda */
+.agenda-layout{
+  display:grid;
+  grid-template-columns: 280px 1fr;
+  gap:18px;
+  height:100%;
+  padding: 18px;
+}
+
+/* Sidebar Agenda */
+.agenda-sidebar{
+  background: var(--nodum-surface);
+  border:1px solid var(--nodum-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  padding:16px;
+  display:flex; flex-direction:column; gap:16px;
+}
+.agenda-sidebar .brand{
+  display:flex; align-items:center; gap:10px;
+}
+.agenda-sidebar .brand img{ width:32px; height:32px; border-radius:8px; }
+.agenda-sidebar .brand strong{ font-size:1rem; }
+
+.agenda-nav{ display:flex; flex-direction:column; gap:6px; margin-top:6px; }
+.agenda-nav button, .agenda-nav a{
+  text-align:left; padding:10px 12px; border-radius:10px;
+  border:1px solid transparent; background:transparent; color: var(--nodum-text);
+}
+.agenda-nav .is-active,
+.agenda-nav button:hover, .agenda-nav a:hover{
+  background: rgba(255,255,255,.04);
+  border-color: var(--nodum-border);
+}
+
+/* Área principal */
+.agenda-main{
+  min-width:0;
+  display:flex; flex-direction:column; gap:16px;
+}
+
+/* Topbar */
+.agenda-topbar{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:12px 14px;
+  background: var(--nodum-surface);
+  border:1px solid var(--nodum-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+.agenda-topbar .left{ display:flex; gap:10px; align-items:center; }
+.agenda-topbar .right{ display:flex; gap:10px; align-items:center; }
+.searchbox{ position:relative; }
+.searchbox input{
+  width: 280px;
+  background: rgba(255,255,255,.03);
+  border:1px solid var(--nodum-border);
+  border-radius:12px; padding:10px 12px;
+  color: var(--nodum-text);
+}
+@media (max-width: 1100px){
+  .agenda-layout{ grid-template-columns: 1fr; }
+  .searchbox input{ width: 200px; }
+}
+
+/* Tarjetas KPI */
+.kpis{ grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 1100px){ .kpis{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 680px){ .kpis{ grid-template-columns: 1fr; } }
+.kpi{ padding:16px; }
+
+/* Listas y tablas base ya heredadas de .table/.card */
+
+/* ======================
+   React Big Calendar
+   ====================== */
+.rbc-calendar{
+  background: var(--nodum-surface);
+  border: 1px solid var(--nodum-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+  color: var(--nodum-text);
+}
+.rbc-toolbar{
+  color: var(--nodum-text);
+  border-bottom:1px solid var(--nodum-border);
+  padding:10px 12px;
+}
+.rbc-toolbar button{
+  background: transparent;
+  color: var(--nodum-text);
+  border: 1px solid var(--nodum-border);
+  border-radius: 10px;
+  padding: 6px 10px;
+  margin-right: 6px;
+}
+.rbc-toolbar button.rbc-active,
+.rbc-toolbar button:hover{
+  background: rgba(255,255,255,.04);
+}
+.rbc-event{
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.1);
+  padding: 2px 6px;
+  font-weight:600;
+}
+.rbc-today{ background: rgba(11,95,255,.08); }
+.rbc-off-range-bg{ background: rgba(255,255,255,.02); }
+.rbc-time-content, .rbc-month-view{
+  border-top-color: var(--nodum-border);
+}
+.rbc-time-header, .rbc-time-header > .rbc-row, .rbc-month-row, .rbc-header, .rbc-day-bg, .rbc-time-slot{
+  border-color: var(--nodum-border);
+}
+
+/* Colores por estado de turno (agregá className al event) */
+.rbc-event.is-confirmed{ background: linear-gradient(180deg, #2AD39A, #19b985); color:#0d3328; }
+.rbc-event.is-pending{ background: linear-gradient(180deg, #FFC857, #e7af3a); color:#3a2a0d; }
+.rbc-event.is-canceled{ background: linear-gradient(180deg, #FF5D5D, #e54040); color:#3a0d0d; }
+
+/* Drawer/Modal form (aprovecha .modal del theme) */
+.appointment-form .row{ display:grid; gap:10px; grid-template-columns: 1fr 1fr; }
+.appointment-form .row > div{ display:flex; flex-direction:column; gap:6px; }
+@media (max-width: 720px){
+  .appointment-form .row{ grid-template-columns: 1fr; }
+}

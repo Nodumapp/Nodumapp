@@ -41,6 +41,26 @@ export default function Panel() {
 
   const fullName =
     (user?.firstName || "Usuario") + (user?.lastName ? ` ${user.lastName}` : "");
+
+     const appRoutes = {
+    agenda: "/agenda",
+    erp: "/erp",
+    tienda: "/tienda",
+    analytics: "/analytics",
+    helpdesk: "/helpdesk",
+    crm: "/crm",
+  };
+   // Habilitadas hoy (dejamos solo Agenda operativa)
+  const enabledApps = new Set(["agenda"]);
+
+  const apps = [
+    { key: "agenda", name: "Agenda", desc: "Turnos, reuniones y recordatorios" },
+    { key: "erp", name: "ERP", desc: "Gestión y procesos" },
+    { key: "tienda", name: "Tienda", desc: "Ventas online" },
+    { key: "analytics", name: "Analytics", desc: "Dashboards y reportes" },
+    { key: "helpdesk", name: "Helpdesk", desc: "Tickets y soporte" },
+    { key: "crm", name: "CRM", desc: "Contactos y oportunidades" },
+  ];
   return (
     <div className="panel">
       {/* SIDEBAR */}
@@ -117,32 +137,43 @@ export default function Panel() {
         </section>
 
         {/* Apps */}
-        <section className="section">
-          <div className="section-head">
-            <h2>Tus apps</h2>
-            <span className="muted">Activá módulos cuando los necesites</span>
-          </div>
-          <div className="grid apps">
-            {[
-              { key: "agenda", name: "Agenda", desc: "Turnos, reuniones y recordatorios" },
-              { key: "erp", name: "ERP", desc: "Gestión y procesos" },
-              { key: "tienda", name: "Tienda", desc: "Ventas online" },
-              { key: "analytics", name: "Analytics", desc: "Dashboards y reportes" },
-              { key: "helpdesk", name: "Helpdesk", desc: "Tickets y soporte" },
-              { key: "crm", name: "CRM", desc: "Contactos y oportunidades" },
-            ].map((app) => (
-              <article className="card app" key={app.key}>
-                <div className={`app-icon ${app.key}`} aria-hidden />
-                <h3>{app.name}</h3>
-                <p className="muted">{app.desc}</p>
-                <div className="app-actions">
-                  <button type="button" className="btn-primary" disabled>Entrar</button>
-                  <button type="button" className="btn-ghost">Configurar</button>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
+       <section className="section">
+      <div className="section-head">
+        <h2>Tus apps</h2>
+        <span className="muted">Activá módulos cuando los necesites</span>
+      </div>
+
+      <div className="grid apps">
+        {apps.map((app) => {
+          const isEnabled = enabledApps.has(app.key);
+          const to = appRoutes[app.key];
+
+          return (
+            <article className="card app" key={app.key}>
+              <div className={`app-icon ${app.key}`} aria-hidden />
+              <h3>{app.name}</h3>
+              <p className="muted">{app.desc}</p>
+
+              <div className="app-actions">
+                {isEnabled && to ? (
+                  // Usá Link con la misma clase de botón para mantener estilo
+                  <Link className="btn-primary" to={to}>
+                    Entrar
+                  </Link>
+                ) : (
+                  <button type="button" className="btn-primary">
+                    Entrar
+                  </button>
+                )}
+                <button type="button" className="btn-ghost">Configurar</button>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+    </section>
+  
+
 
         {/* Últimos movimientos */}
         <section className="section">
