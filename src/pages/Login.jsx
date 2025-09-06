@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styles from "../styles/Login.module.css";
 import { authLogin } from "../services/authService";
-import Panel from "./Panel";
+
 
 
 export default function Login() {
@@ -140,7 +140,7 @@ export default function Login() {
               <Link to="#" className={styles.link}>¿Olvidaste tu contraseña?</Link>
             </div>
 
-            <button
+           <button
               type="submit"
               className={styles.primaryBtn}
               disabled={loading}

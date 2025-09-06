@@ -1,6 +1,6 @@
 // src/services/authService.js
 
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:3001";
 
 /**
  * Inicia sesión
@@ -44,5 +44,47 @@ export async function authRegister(payload) {
     throw new Error(msg);
   }
   return data; // muchos backends devuelven el usuario creado
+}
+export function getAccessToken() {
+  return localStorage.getItem("accessToken");
+}
+
+export function isAuthenticated() {
+  return !!getAccessToken();
+}
+
+/**
+ * Cierra sesión del usuario: limpia tokens y (opcional) avisa al backend.
+ * @param {{hitServer?: boolean}} opts
+ */
+export async function logout({ hitServer = false } = {}) {
+  try {
+    if (hitServer) {
+      const refreshToken = localStorage.getItem("refreshToken");
+      await fetch(`${API_URL}/auth/logout`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
+        credentials: "include", // quitá esto si no usás cookies
+      });
+    }
+  } catch (_) {
+    // ignoramos errores del logout remoto para no bloquear el cierre local
+  } finally {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("user");
+  }
+}
+export async function authMe() {
+  const token = localStorage.getItem("accessToken");
+  if (!token) throw new Error("Sin token");
+
+  const res = await fetch(`${API_URL}/auth/me`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) throw new Error(`Error ${res.status}`);
+  return await res.json(); // debe devolver { firstName, lastName, email, ... }
 }
 

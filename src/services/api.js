@@ -1,39 +1,36 @@
-// src/services/api.js
-const API_URL =
-  process.env.REACT_APP_API_URL || "http://localhost:8080"; // Spring Boot por defecto
+// src/App.js
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Panel from "./pages/Panel";
+import RequireAuth from "./routes/RequireAuth"; // <- ver punto 2
 
-export async function http(path, { method = "GET", body, headers, auth = false } = {}) {
-  const token = auth ? localStorage.getItem("accessToken") : null;
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
-  const res = await fetch(`${API_URL}${path}`, {
-    method,
-    headers: {
-      "Content-Type": "application/json",
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-      ...headers,
-    },
-    body: body ? JSON.stringify(body) : undefined,
-    credentials: "include", // quitalo si no usás cookies
-  });
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home />} />
 
-  // Intentar parsear respuesta
-  let payload = null;
-  const text = await res.text();
-  try {
-    payload = text ? JSON.parse(text) : null;
-  } catch {
-    payload = text || null;
-  }
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
-  if (!res.ok) {
-    const message =
-      (payload && (payload.message || payload.error)) ||
-      `${res.status} ${res.statusText}`;
-    const err = new Error(message);
-    err.status = res.status;
-    err.payload = payload;
-    throw err;
-  }
+        <Route
+          path="/panel"
+          element={
+            <RequireAuth>
+              <Panel />
+            </RequireAuth>
+          }
+        />
 
-  return payload;
+        <Route path="*" element={<div>404</div>} />
+      </Routes>
+    </Router>
+  );
 }
+
+export default App;
