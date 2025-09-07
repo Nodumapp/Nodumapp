@@ -76,11 +76,7 @@ export default function Register() {
       <div className="register-left">
         <header className="register-header">
           <Link to="/" aria-label="Ir al inicio">
-            <img
-              src={process.env.PUBLIC_URL + "/images/Nodum-Logo-solo-color-sin-slogan (1).png"}
-              alt="Nodum"
-              className="register-logo"
-            />
+           <img src={process.env.PUBLIC_URL + "/images/Nodum-Logo-solo-color-sin-slogan.png"} alt="Nodum" className="register-logo" />
           </Link>
         </header>
 
@@ -146,6 +142,7 @@ export default function Register() {
                 autoComplete="new-password"
                 minLength={6}
               />
+              
               <button
                 type="button"
                 className="register-eyeBtn"
