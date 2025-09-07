@@ -161,7 +161,7 @@ export default function Panel() {
                     Entrar
                   </Link>
                 ) : (
-                  <button type="button" className="btn-primary">
+                  <button type="button" className="btn-primary" disabled>
                     Entrar
                   </button>
                 )}

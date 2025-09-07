@@ -1,7 +1,7 @@
 // src/services/api.js
 const API_BASE =
   process.env.NODE_ENV === "development"
-    ? (process.env.REACT_APP_API_URL || "http://localhost:3001")
+    ? (process.env.REACT_APP_API_URL || "http://localhost:8080")
     : (process.env.REACT_APP_API_URL || ""); // <- relativo en prod
 
 export async function http(path, { method = "GET", body, headers, auth = false } = {}) {
