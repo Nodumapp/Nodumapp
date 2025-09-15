@@ -1,0 +1,169 @@
+.wrap {
+    display: flex;
+    min-height: 100vh;
+    background: #fff;
+}
+
+.left {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px 48px;
+}
+
+.header {
+    height: 56px;
+    display: flex;
+    align-items: center;
+    background-image: none;
+    box-shadow: none;
+}
+
+.logo {
+    height: 28px;
+}
+
+.main {
+    margin: 64px auto 0;
+    max-width: 520px;
+    width: 100%;
+}
+
+.title {
+    font-size: 42px;
+    line-height: 1.1;
+    margin: 0 0 8px;
+    font-weight: 800;
+    letter-spacing: -.02em;
+}
+
+.subtitle {
+    color: #666;
+    margin-bottom: 24px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.label {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.input {
+    width: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 12px 14px;
+    outline: none;
+    transition: border .15s, box-shadow .15s;
+}
+
+.input:focus {
+    border-color: #00c389;
+    box-shadow: 0 0 0 3px rgba(0, 195, 137, .15);
+}
+
+.primaryBtn {
+    margin-top: 8px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 1px solid #00c389;
+    background: linear-gradient(180deg, #00d89b, #00c389);
+    color: #0b1b16;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.primaryBtn[disabled] {
+    opacity: .6;
+    cursor: not-allowed;
+}
+
+.error {
+    background: #ffe8e8;
+    color: #8a0d0d;
+    border: 1px solid #f5b5b5;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.success {
+    background: #e6fff6;
+    color: #0b4a3a;
+    border: 1px solid #a6f1d9;
+    padding: 10px 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.backLink {
+    margin-top: 12px;
+}
+
+.devBox {
+    margin-top: 10px;
+    padding: 8px;
+    border: 1px dashed #00c389;
+    border-radius: 10px;
+    font-size: 12px;
+}
+
+.right {
+    width: 48%;
+    min-width: 480px;
+    padding: 24px;
+}
+
+.hero {
+    position: sticky;
+    top: 24px;
+    height: calc(100vh - 48px);
+    border-radius: 28px;
+    overflow: hidden;
+}
+
+.hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, .15), rgba(0, 0, 0, .35));
+}
+
+.bigline {
+    position: absolute;
+    bottom: 28px;
+    left: 28px;
+    right: 28px;
+    color: #fff;
+    font-size: 44px;
+    line-height: 1.05;
+}
+
+.bold {
+    font-weight: 900;
+}
+
+.kicker {
+    font-weight: 700;
+}
+
+@media (max-width:1100px) {
+    .right {
+        display: none;
+    }
+
+    .main {
+        margin-top: 32px;
+    }
+}

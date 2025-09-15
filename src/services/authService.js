@@ -87,4 +87,23 @@ export async function authMe() {
   if (!res.ok) throw new Error(`Error ${res.status}`);
   return await res.json(); // debe devolver { firstName, lastName, email, ... }
 }
+export async function requestPasswordReset(email) {
+  const r = await fetch(`${API_URL}/auth/forgot-password`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  });
+  let data = null; try { data = await r.json(); } catch {}
+  if (!r.ok) throw new Error((data && (data.message || data.error)) || `Error ${r.status}`);
+  return data; // {message, resetUrl? (dev)}
+}
+
+export async function resetPassword(token, password) {
+  const r = await fetch(`${API_URL}/auth/reset-password`, {
+    method: "POST", headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ token, password })
+  });
+  let data = null; try { data = await r.json(); } catch {}
+  if (!r.ok) throw new Error((data && (data.message || data.error)) || `Error ${r.status}`);
+  return data; // {message}
+}
 

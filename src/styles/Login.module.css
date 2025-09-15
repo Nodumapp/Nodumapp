@@ -183,6 +183,45 @@ img {
     justify-content: center;
     cursor: pointer;
 }
+/* El contenedor donde se monta el botón de Google */
+.gBtnWrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Clon visual del botón de Google para Facebook */
+.gLikeBtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  height: 40px;               /* Google size=large */
+  padding: 0 12px;
+  border: 1px solid #dadce0;  /* borde Google */
+  border-radius: 20px;        /* pill Google */
+  background: #fff;
+  color: #3c4043;             /* texto Google */
+  font-size: 14px;
+  letter-spacing: .25px;
+  cursor: pointer;
+  user-select: none;
+  outline: none;
+  min-width: 260px;           /* iguala ancho con Google */
+}
+
+.gLikeBtn:hover { background: #f7f8f8; }
+.gLikeBtn:active { background: #eee; }
+
+.iconBox {
+  width: 18px;
+  height: 18px;
+  display: grid;
+  place-items: center;
+}
+
+/* Igualar ancho visual del botón de Google con el de Facebook */
+.socialRow > .gBtnWrap { min-width: 260px; }
 
 .bottomNote {
     margin-top: 8px;
