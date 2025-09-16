@@ -79,21 +79,30 @@ export default function Register() {
 
   const fbReady = useFacebookSDK(FB_APP_ID);
 
-  async function postOAuth(provider, accessToken) {
-    const res = await fetch(`${API_URL}/auth/oauth-login`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ provider, accessToken }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || `Error ${res.status}`);
-    localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    // si querés, también guardá user luego con /user/me (tu backend devuelve string),
-    // o dejá que el Panel use el email del JWT (como ya hace).
-    navigate("/Panel");
+ async function postOAuth(payload) {
+  const res = await fetch(`${API_URL}/auth/oauth-login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const text = await res.text();
+    throw new Error(`HTTP ${res.status} - ${text || "Sin cuerpo"}`);
   }
+  const data = await res.json();
+  if (!data?.accessToken) throw new Error("Token no recibido del backend");
+  localStorage.setItem("accessToken", data.accessToken);
+  if (data.refreshToken) localStorage.setItem("refreshToken", data.refreshToken);
+  navigate("/Panel");
+}
 
+// Google (GIS)
+async function handleGoogleSuccess(resp) {
+  const idToken = resp?.credential;
+  if (!idToken) return alert("No llegó el ID token de Google");
+  try { await postOAuth({ provider: "google", credential: idToken }); }
+  catch (e) { console.error(e); alert("Error con Google"); }
+}
   // === GOOGLE === (credential = ID Token)
   async function handleGoogleSuccess(credentialResponse) {
     const idToken = credentialResponse?.credential;
@@ -123,7 +132,7 @@ export default function Register() {
       }
     }, { scope: "public_profile,email" });
   }
-  
+
 
   return (
     <div className="register-wrap">
@@ -227,9 +236,17 @@ export default function Register() {
 
             <div className={styles.socialRow}>
               <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-                <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  theme="outline"
+                  size="large"
+                  text="signin_with"
+                  shape="rectangular"
+                  locale="es-419"
+                />
               </GoogleOAuthProvider>
-              
+
 
 
               <button

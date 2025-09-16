@@ -68,20 +68,25 @@ export default function Login() {
     }
   };
 
- const fbReady = useFacebookSDK(FB_APP_ID);
+  const fbReady = useFacebookSDK(FB_APP_ID);
 
-  async function postOAuth(provider, accessToken) {
+  // --- reemplazá tu postOAuth por este ---
+  async function postOAuth(payload) {
     const res = await fetch(`${API_URL}/auth/oauth-login`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ provider, accessToken }),
+      body: JSON.stringify(payload),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data?.message || `Error ${res.status}`);
+
+    if (!res.ok) {
+      const text = await res.text();
+      throw new Error(`HTTP ${res.status} - ${text || "Sin cuerpo"}`);
+    }
+
+    const data = await res.json(); // ahora sí
+    if (!data?.accessToken) throw new Error("Token no recibido del backend");
     localStorage.setItem("accessToken", data.accessToken);
-    localStorage.setItem("refreshToken", data.refreshToken);
-    // si querés, también guardá user luego con /user/me (tu backend devuelve string),
-    // o dejá que el Panel use el email del JWT (como ya hace).
+    if (data.refreshToken) localStorage.setItem("refreshToken", data.refreshToken);
     navigate("/Panel");
   }
 
@@ -89,8 +94,13 @@ export default function Login() {
   async function handleGoogleSuccess(credentialResponse) {
     const idToken = credentialResponse?.credential;
     if (!idToken) return alert("No llegó el ID token de Google");
-    try { await postOAuth("google", idToken); }
-    catch (e) { console.error(e); alert("Error con Google"); }
+    try {
+      // BACK ESPERA 'credential' (ajustá si tu back espera 'idToken')
+      await postOAuth({ provider: "google", credential: idToken });
+    } catch (e) {
+      console.error(e);
+      alert("Error con Google");
+    }
   }
 
   function handleGoogleError() {
@@ -98,13 +108,13 @@ export default function Login() {
   }
 
   // === FACEBOOK ===
-  function handleFacebook() {
+  async function handleFacebook() {
     if (!fbReady || !window.FB) return alert("Facebook SDK cargándose…");
     window.FB.login(async (resp) => {
       try {
         if (resp?.authResponse) {
           const { accessToken } = resp.authResponse;
-          await postOAuth("facebook", accessToken);
+          await postOAuth({ provider: "facebook", accessToken });
         } else {
           alert("Login de Facebook cancelado");
         }
@@ -114,6 +124,7 @@ export default function Login() {
       }
     }, { scope: "public_profile,email" });
   }
+
 
 
 
@@ -175,8 +186,8 @@ export default function Login() {
                 title={showPass ? "Ocultar contraseña" : "Mostrar contraseña"}
               >
                 <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
-                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" fill="none" stroke="currentColor" strokeWidth="1.7"/>
-                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.7"/>
+                  <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12Z" fill="none" stroke="currentColor" strokeWidth="1.7" />
+                  <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="1.7" />
                 </svg>
               </button>
             </div>
@@ -194,7 +205,7 @@ export default function Login() {
               <Link to="/Forgot" className={styles.link}>¿Olvidaste tu contraseña?</Link>
             </div>
 
-           <button
+            <button
               type="submit"
               className={styles.primaryBtn}
               disabled={loading}
@@ -207,10 +218,18 @@ export default function Login() {
             </div>
 
             <div className={styles.socialRow}>
-               <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
-                <GoogleLogin onSuccess={handleGoogleSuccess} onError={handleGoogleError} />
+              <GoogleOAuthProvider clientId={GOOGLE_CLIENT_ID}>
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  theme="outline"
+                  size="large"
+                  text="signin_with"
+                  shape="rectangular"
+                  locale="es-419"
+                />
               </GoogleOAuthProvider>
-              
+
 
 
               <button
