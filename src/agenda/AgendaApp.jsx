@@ -1,21 +1,22 @@
 // src/agenda/AgendaApp.jsx
 import React from "react";
-import { Link, NavLink, Route, Routes, useNavigate } from "react-router-dom";
+import { NavLink, Route, Routes, useNavigate } from "react-router-dom";
+
 import Dashboard from "./pages/Dashboard";
 import CalendarPage from "./pages/Calendar";
 import Clients from "./pages/Clients";
 import Services from "./pages/Services";
 import Staff from "./pages/Staff";
 import Settings from "./pages/Settings";
-// import { useAgenda } from "./store"; // (descomentalo cuando lo uses)
-import "./styles.css";
+
 import "../styles/nodum-agenda.css";
 
+// Util: iniciales a partir de user
 function getInitials(user) {
   const name = [user?.firstName, user?.lastName].filter(Boolean).join(" ").trim();
   if (name) {
     const parts = name.split(/\s+/);
-    return (parts[0]?.[0] || "") + (parts[1]?.[0] || "");
+    return `${parts[0]?.[0] || ""}${parts[1]?.[0] || ""}`.toUpperCase();
   }
   const email = user?.email || "";
   return (email[0] || "U").toUpperCase();
@@ -26,7 +27,11 @@ export default function AgendaApp() {
 
   // Levanto usuario guardado por login/registro
   const user = React.useMemo(() => {
-    try { return JSON.parse(localStorage.getItem("user") || "null"); } catch { return null; }
+    try {
+      return JSON.parse(localStorage.getItem("user") || "null");
+    } catch {
+      return null;
+    }
   }, []);
 
   const initials = getInitials(user);
@@ -39,8 +44,7 @@ export default function AgendaApp() {
     // si tenés endpoint /auth/logout, llamalo acá
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
-    // si guardaste user:
-    // localStorage.removeItem("user");
+    // si guardaste user: localStorage.removeItem("user");
     navigate("/login", { replace: true });
   }
 
@@ -50,34 +54,52 @@ export default function AgendaApp() {
       <aside className="agenda-sidebar">
         <button className="agenda-brand" onClick={goHome}>
           <img
-            src={process.env.PUBLIC_URL + "/images/Nodum Logo solo color sin slogan (1).png"}
+            src={process.env.PUBLIC_URL + "images/NodumLogosinslogan.png"}
             alt="Nodum"
           />
         </button>
 
         <nav className="agenda-nav vstack gap-1">
-          {/* El "end" evita que quede activa en subrutas */}
-          <NavLink end className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")} to=".">
+          <NavLink
+            end
+            className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")}
+            to="."
+          >
             Resumen
           </NavLink>
-          <NavLink className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")} to="calendar">
+          <NavLink
+            className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")}
+            to="calendar"
+          >
             Calendario
           </NavLink>
-          <NavLink className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")} to="clients">
+          <NavLink
+            className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")}
+            to="clients"
+          >
             Clientes
           </NavLink>
-          <NavLink className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")} to="services">
+          <NavLink
+            className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")}
+            to="services"
+          >
             Servicios
           </NavLink>
-          <NavLink className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")} to="staff">
+          <NavLink
+            className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")}
+            to="staff"
+          >
             Staff
           </NavLink>
-          <NavLink className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")} to="settings">
+          <NavLink
+            className={({ isActive }) => "agenda-link" + (isActive ? " active" : "")}
+            to="settings"
+          >
             Configuración
           </NavLink>
         </nav>
 
-        <div className="agenda-sidebar-footer text-muted small">Agenda v0.1</div>
+        <div className="agenda-sidebar-footer text-muted small">Agenda v1.0</div>
       </aside>
 
       {/* MAIN */}
@@ -97,7 +119,9 @@ export default function AgendaApp() {
             </div>
 
             <div className="agenda-user">
-              <div className="agenda-avatar" aria-hidden>{initials}</div>
+              <div className="agenda-avatar" aria-hidden>
+                {initials}
+              </div>
               <button type="button" className="logoutBtn" onClick={handleLogout}>
                 Cerrar sesión
               </button>

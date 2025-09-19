@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Panel from "./pages/Panel";
-import RequireAuth from "./pages/RequireAuth"; // o "./pages/RequireAuth"
+import RequireAuth from "./pages/RequireAuth";
 import AgendaApp from "./agenda/AgendaApp";
 import OAuth2Redirect from "./pages/OAuth2Redirect";
 
@@ -12,6 +12,9 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+
+// ⬇️ IMPORTANTE: importá el provider del store de la agenda
+import { AgendaProvider } from "./agenda/store";
 
 function App() {
   return (
@@ -30,7 +33,19 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/agenda/*" element={<RequireAuth><AgendaApp /></RequireAuth>} />
+
+        {/* ⬇️ Envolvemos /agenda con AgendaProvider */}
+        <Route
+          path="/agenda/*"
+          element={
+            <RequireAuth>
+              <AgendaProvider>
+                <AgendaApp />
+              </AgendaProvider>
+            </RequireAuth>
+          }
+        />
+
         <Route path="/oauth2/redirect" element={<OAuth2Redirect />} />
         <Route path="/forgot" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
@@ -39,6 +54,7 @@ function App() {
     </Router>
   );
 }
+
 export default App;
 
 

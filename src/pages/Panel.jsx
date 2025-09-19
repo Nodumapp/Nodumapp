@@ -67,7 +67,7 @@ export default function Panel() {
       <aside className="sidebar">
         <div className="brand">
           <img
-            src={process.env.PUBLIC_URL + "/images/Nodum-Logo-solo-color-sin-slogan (1).png"}
+            src={process.env.PUBLIC_URL + "images/NodumLogosinslogan.png"}
             alt="Nodum"
           />
         </div>

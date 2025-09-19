@@ -1,231 +1,226 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import { addMinutes, parseISO } from "date-fns";
+// src/agenda/store.js
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from "react";
 
-// --- helpers ---
-function uid() {
-  return (typeof crypto !== "undefined" && crypto.randomUUID)
-    ? crypto.randomUUID()
-    : String(Date.now() + Math.random());
-}
-function toDate(d) {
-  if (!d) return null;
-  if (d instanceof Date) return d;
-  const asNum = +d;
-  if (!Number.isNaN(asNum)) return new Date(asNum);
-  try { return parseISO(d); } catch { return new Date(d); }
-}
-function toISO(d) {
-  const dt = toDate(d);
-  return dt ? dt.toISOString() : null;
-}
-
-// --- estado inicial ---
+/* ----------------------- Estado inicial ----------------------- */
 const initialState = {
-  clients: [],
-  services: [
-    { id: uid(), name: "Consulta", duration: 30, price: 0, color: "#0d6efd" },
-  ],
-  staff: [
-    {
-      id: uid(),
-      name: "Staff General",
-      email: "staff@nodum.app",
-      color: "#6f42c1",
-      availability: {
-        mon: [{ start: "09:00", end: "17:00" }],
-        tue: [{ start: "09:00", end: "17:00" }],
-        wed: [{ start: "09:00", end: "17:00" }],
-        thu: [{ start: "09:00", end: "17:00" }],
-        fri: [{ start: "09:00", end: "17:00" }],
-        sat: [],
-        sun: [],
-      },
-    },
-  ],
-  appointments: [],
+  appointments: [], // {id, clientId, staffId, serviceId, status, start, end, notes, reminders}
+  clients: [], // {id, firstName, lastName, phone, email}
+  staff: [], // {id, name, phone, email, role}
+  services: [], // {id, name, price, durationMinutes, color}
   settings: {
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
-    slotMinutes: 30,
+    businessName: "Nodum Agenda",
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     weekStartsOn: 1,
-    businessHours: {
-      mon: [{ start: "09:00", end: "17:00" }],
-      tue: [{ start: "09:00", end: "17:00" }],
-      wed: [{ start: "09:00", end: "17:00" }],
-      thu: [{ start: "09:00", end: "17:00" }],
-      fri: [{ start: "09:00", end: "17:00" }],
-      sat: [],
-      sun: [],
-    },
+    remindersEmail: true,
+    remindersSms: false,
   },
 };
 
-// --- store ---
-export const useAgenda = create(
-  persist(
-    (set, get) => ({
-      // DATA
-      ...initialState,
+/* ----------------------- Contexto & tipos --------------------- */
+const StoreCtx = createContext(null);
 
-      // ===== CLIENTES =====
-      addClient: (payload) =>
-        set((s) => ({ clients: [...s.clients, { id: uid(), ...payload }] })),
-      updateClient: (id, patch) =>
-        set((s) => ({
-          clients: s.clients.map((c) => (c.id === id ? { ...c, ...patch } : c)),
-        })),
-      removeClient: (id) =>
-        set((s) => ({ clients: s.clients.filter((c) => c.id !== id) })),
+const DISPATCH_TYPES = {
+  HYDRATE: "HYDRATE",
+  BULK_SET: "BULK_SET",
+  ADD: "ADD",
+  UPDATE: "UPDATE",
+  REMOVE: "REMOVE",
+};
 
-      // ===== SERVICIOS =====
-      addService: (payload) =>
-        set((s) => ({ services: [...s.services, { id: uid(), ...payload }] })),
-      updateService: (id, patch) =>
-        set((s) => ({
-          services: s.services.map((c) =>
-            c.id === id ? { ...c, ...patch } : c
-          ),
-        })),
-      removeService: (id) =>
-        set((s) => ({ services: s.services.filter((c) => c.id !== id) })),
+/* ----------------------- Utils ----------------------- */
+function uid(prefix = "id") {
+  return `${prefix}_${Math.random().toString(36).slice(2, 9)}_${Date.now().toString(36)}`;
+}
 
-      // ===== STAFF =====
-      addStaff: (payload) =>
-        set((s) => ({ staff: [...s.staff, { id: uid(), ...payload }] })),
-      updateStaff: (id, patch) =>
-        set((s) => ({
-          staff: s.staff.map((c) => (c.id === id ? { ...c, ...patch } : c)),
-        })),
-      removeStaff: (id) =>
-        set((s) => ({ staff: s.staff.filter((c) => c.id !== id) })),
+/* ----------------------- Reducer --------------------- */
+function reducer(state, action) {
+  switch (action.type) {
+    case DISPATCH_TYPES.HYDRATE:
+      return { ...state, ...action.payload };
 
-      // ===== APPOINTMENTS (TURNOS) =====
-      addAppointment: (payload) => {
-        const s = get();
-        const service =
-          s.services.find((x) => x.id === payload.serviceId) || null;
+    case DISPATCH_TYPES.BULK_SET:
+      return { ...state, [action.key]: action.items };
 
-        const startISO = toISO(payload.start) || new Date().toISOString();
-        const endISO =
-          toISO(payload.end) ||
-          toISO(addMinutes(toDate(startISO), service?.duration || s.settings.slotMinutes || 30));
+    case DISPATCH_TYPES.ADD:
+      return {
+        ...state,
+        [action.key]: [...state[action.key], action.item],
+      };
 
-        const appt = {
-          id: uid(),
-          clientId: payload.clientId || null,
-          staffId: payload.staffId || null,
-          serviceId: payload.serviceId || null,
-          start: startISO,
-          end: endISO,
-          status: payload.status || "booked", // booked | confirmed | cancelled | no-show
-          notes: payload.notes || "",
-          reminders: {
-            email: !!payload?.reminders?.email,
-            sms: !!payload?.reminders?.sms,
+    case DISPATCH_TYPES.UPDATE:
+      return {
+        ...state,
+        [action.key]: state[action.key].map((it) =>
+          it.id === action.id ? { ...it, ...action.patch } : it
+        ),
+      };
+
+    case DISPATCH_TYPES.REMOVE:
+      return {
+        ...state,
+        [action.key]: state[action.key].filter((it) => it.id !== action.id),
+      };
+
+    default:
+      return state;
+  }
+}
+
+/* ----------------------- Persistencia --------------------- */
+const STORAGE_KEY = "nodum_agenda_data_v1";
+
+/* ----------------------- Provider ----------------------- */
+export function AgendaProvider({ children, seed = true }) {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  // Hidratar desde localStorage (o sembrar demo)
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (raw) {
+        dispatch({ type: DISPATCH_TYPES.HYDRATE, payload: JSON.parse(raw) });
+      } else if (seed) {
+        // Datos de ejemplo
+        const exClients = [
+          {
+            id: uid("cli"),
+            firstName: "Juan",
+            lastName: "Pérez",
+            phone: "+54 9 11 5555-0001",
+            email: "juan@example.com",
           },
-          price: payload.price ?? service?.price ?? 0,
+          {
+            id: uid("cli"),
+            firstName: "Ana",
+            lastName: "García",
+            phone: "+54 9 11 5555-0002",
+            email: "ana@example.com",
+          },
+        ];
+
+        const exStaff = [
+          {
+            id: uid("stf"),
+            name: "Lucía",
+            phone: "+54 9 11 5555-0011",
+            email: "lucia@nodum.app",
+            role: "Stylist",
+          },
+          {
+            id: uid("stf"),
+            name: "Mario",
+            phone: "+54 9 11 5555-0012",
+            email: "mario@nodum.app",
+            role: "Barber",
+          },
+        ];
+
+        const exServices = [
+          {
+            id: uid("svc"),
+            name: "Corte clásico",
+            price: 8000,
+            durationMinutes: 45,
+            color: "#2563eb",
+          },
+          {
+            id: uid("svc"),
+            name: "Color + Brushing",
+            price: 15000,
+            durationMinutes: 90,
+            color: "#10b981",
+          },
+        ];
+
+        const now = Date.now();
+        const exAppt = [
+          {
+            id: uid("apt"),
+            clientId: exClients[0].id,
+            staffId: exStaff[0].id,
+            serviceId: exServices[0].id,
+            status: "confirmed",
+            start: new Date(now + 2 * 3600000),
+            end: new Date(now + 3 * 3600000),
+            notes: "Primera vez",
+            reminders: { email: true, sms: false },
+          },
+        ];
+
+        const seeded = {
+          ...initialState,
+          clients: exClients,
+          staff: exStaff,
+          services: exServices,
+          appointments: exAppt,
         };
-
-        set((state) => ({ appointments: [...state.appointments, appt] }));
-        return appt.id;
-      },
-
-      updateAppointment: (id, patch) =>
-        set((s) => {
-          const current = s.appointments.find((a) => a.id === id);
-          if (!current) return { appointments: s.appointments };
-
-          // si cambiaron start o serviceId y no llega end, recalculamos end
-          const willChangeStart = "start" in patch;
-          const willChangeSvc = "serviceId" in patch;
-
-          let next = { ...current, ...patch };
-
-          if ((willChangeStart || willChangeSvc) && !("end" in patch)) {
-            const svc =
-              s.services.find((x) => x.id === next.serviceId) || null;
-            const startISO = toISO(next.start) || current.start;
-            const endISO = toISO(
-              addMinutes(toDate(startISO), svc?.duration || s.settings.slotMinutes || 30)
-            );
-            next.start = startISO;
-            next.end = endISO;
-          } else {
-            // normalizar si dieron fechas
-            if ("start" in patch) next.start = toISO(patch.start);
-            if ("end" in patch) next.end = toISO(patch.end);
-          }
-
-          return {
-            appointments: s.appointments.map((a) => (a.id === id ? next : a)),
-          };
-        }),
-
-      removeAppointment: (id) =>
-        set((s) => ({ appointments: s.appointments.filter((a) => a.id !== id) })),
-
-      // ===== SELECTORES / UTIL =====
-      getClient: (id) => get().clients.find((c) => c.id === id) || null,
-      getService: (id) => get().services.find((c) => c.id === id) || null,
-      getStaff: (id) => get().staff.find((c) => c.id === id) || null,
-      getAppointment: (id) =>
-        get().appointments.find((a) => a.id === id) || null,
-
-      listAppointmentsByDay: (yyyymmdd) => {
-        // yyyymmdd = '2025-09-06'
-        const day = new Date(yyyymmdd + "T00:00:00");
-        const start = day.getTime();
-        const end = start + 24 * 60 * 60 * 1000;
-        return get().appointments.filter((a) => {
-          const t = +toDate(a.start);
-          return t >= start && t < end;
-        });
-      },
-
-      resetAll: () => set(() => JSON.parse(JSON.stringify(initialState))),
-
-      exportData: () => {
-        const { clients, services, staff, appointments, settings } = get();
-        return { clients, services, staff, appointments, settings };
-      },
-      importData: (data) =>
-        set(() => {
-          const safe = {
-            clients: Array.isArray(data?.clients) ? data.clients : [],
-            services: Array.isArray(data?.services) ? data.services : [],
-            staff: Array.isArray(data?.staff) ? data.staff : [],
-            appointments: Array.isArray(data?.appointments)
-              ? data.appointments
-              : [],
-            settings: { ...initialState.settings, ...(data?.settings || {}) },
-          };
-          return safe;
-        }),
-    }),
-    {
-      name: "agenda:v1",
-      version: 1,
-      storage: createJSONStorage(() => localStorage),
-      // guardamos solo los datos, no las funciones
-      partialize: (state) => ({
-        clients: state.clients,
-        services: state.services,
-        staff: state.staff,
-        appointments: state.appointments,
-        settings: state.settings,
-      }),
-      // migraciones por si cambiás el shape a futuro
-      migrate: (persistedState, version) => {
-        if (!persistedState) return persistedState;
-        // ejemplo simple: asegurar que appointments tenga reminders
-        if (version < 1 && Array.isArray(persistedState.appointments)) {
-          persistedState.appointments = persistedState.appointments.map((a) => ({
-            reminders: { email: !!a?.reminders?.email, sms: !!a?.reminders?.sms },
-            ...a,
-          }));
-        }
-        return persistedState;
-      },
+        dispatch({ type: DISPATCH_TYPES.HYDRATE, payload: seeded });
+      }
+    } catch (e) {
+      console.error("Hydrate error", e);
     }
-  )
-);
+  }, [seed]);
+
+  // Persistir cada cambio
+  useEffect(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch {
+      /* ignore quota errors */
+    }
+  }, [state]);
+
+  // API del store
+  const api = useMemo(
+    () => ({
+      state,
+
+      add: (key, item) =>
+        dispatch({
+          type: DISPATCH_TYPES.ADD,
+          key,
+          item: { id: item.id || uid(key), ...item },
+        }),
+
+      update: (key, id, patch) =>
+        dispatch({ type: DISPATCH_TYPES.UPDATE, key, id, patch }),
+
+      remove: (key, id) => dispatch({ type: DISPATCH_TYPES.REMOVE, key, id }),
+
+      setAll: (key, items) =>
+        dispatch({ type: DISPATCH_TYPES.BULK_SET, key, items }),
+
+      reset: () =>
+        dispatch({ type: DISPATCH_TYPES.HYDRATE, payload: initialState }),
+
+      exportJson: () => JSON.stringify(state, null, 2),
+
+      importJson: (json) => {
+        try {
+          const data = JSON.parse(json);
+          dispatch({ type: DISPATCH_TYPES.HYDRATE, payload: data });
+        } catch (e) {
+          alert("JSON inválido");
+        }
+      },
+    }),
+    [state]
+  );
+
+  return <StoreCtx.Provider value={api}>{children}</StoreCtx.Provider>;
+}
+
+/* ----------------------- Hook ----------------------- */
+export function useAgenda() {
+  const ctx = useContext(StoreCtx);
+  if (!ctx) {
+    throw new Error("useAgenda debe usarse dentro de <AgendaProvider>");
+  }
+  return ctx;
+}

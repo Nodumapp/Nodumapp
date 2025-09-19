@@ -2,21 +2,27 @@ import React from "react";
 import { useAgenda } from "../store";
 import EntityTable from "../components/EntityTable";
 
-export default function Clients() {
-  const { clients, addClient, updateClient, removeClient } = useAgenda();
 
-  return (
-    <EntityTable
-      title="Clientes"
-      rows={clients}
-      columns={[
-        { key: "name", label: "Nombre" },
-        { key: "email", label: "Email" },
-        { key: "phone", label: "Teléfono" },
-      ]}
-      onAdd={(row) => addClient(row)}
-      onUpdate={(id, patch) => updateClient(id, patch)}
-      onRemove={(id) => removeClient(id)}
-    />
-  );
+export default function Clients(){
+const { state, add, update, remove } = useAgenda();
+const cols = [
+{ key:'firstName', label:'Nombre' },
+{ key:'lastName', label:'Apellido' },
+{ key:'phone', label:'Teléfono' },
+{ key:'email', label:'Email' },
+];
+return (
+<section className="grid">
+<div className="card span-12">
+<EntityTable
+title="Clientes"
+rows={state.clients}
+columns={cols}
+onAdd={(draft)=> add('clients', draft)}
+onUpdate={(id,patch)=> update('clients', id, patch)}
+onRemove={(id)=> remove('clients', id)}
+/>
+</div>
+</section>
+);
 }

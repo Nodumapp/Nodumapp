@@ -32,7 +32,7 @@ export default function ForgotPassword() {
         <header className={styles.header}>
           <Link to="/">
             <img
-              src={process.env.PUBLIC_URL + "/images/Nodum Logo solo color sin slogan"}
+              src={process.env.PUBLIC_URL + "/images/NodumLogosinslogan.png"}
               alt="Nodum"
               className={styles.logo}
             />

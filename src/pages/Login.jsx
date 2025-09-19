@@ -135,7 +135,7 @@ export default function Login() {
         <header className={styles.header}>
           <Link to="/">
             <img
-              src={process.env.PUBLIC_URL + "/images/Nodum-Logo-solo-color-sin-slogan (1).png"}
+              src={process.env.PUBLIC_URL + "/images/NodumLogosinslogan.png"}
               alt="Nodum"
               className={styles.logo}
             />

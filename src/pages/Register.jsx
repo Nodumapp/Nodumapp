@@ -139,7 +139,7 @@ async function handleGoogleSuccess(resp) {
       <div className="register-left">
         <header className="register-header">
           <Link to="/" aria-label="Ir al inicio">
-            <img src={process.env.PUBLIC_URL + "/images/Nodum Logo solo color sin slogan"} alt="Nodum" className="register-logo" />
+            <img src={process.env.PUBLIC_URL + "/images/NodumLogosinslogan.png"} alt="Nodum" className="register-logo" />
           </Link>
         </header>
 
