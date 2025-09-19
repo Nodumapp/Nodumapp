@@ -49,7 +49,7 @@ export default function AgendaApp() {
   }
 
   return (
-    <div className="agenda-layout">
+  <div className="agenda-layout agenda-root">
       {/* SIDEBAR */}
       <aside className="agenda-sidebar">
         <button className="agenda-brand" onClick={goHome}>
@@ -142,6 +142,8 @@ export default function AgendaApp() {
           </Routes>
         </div>
       </main>
+      
     </div>
+    
   );
 }
