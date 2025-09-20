@@ -54,7 +54,7 @@ export default function AgendaApp() {
       <aside className="agenda-sidebar">
         <button className="agenda-brand" onClick={goHome}>
           <img
-            src={process.env.PUBLIC_URL + "images/NodumLogosinslogan.png"}
+            src={process.env.PUBLIC_URL + "/images/NodumLogosinslogan.png"}
             alt="Nodum"
           />
         </button>
