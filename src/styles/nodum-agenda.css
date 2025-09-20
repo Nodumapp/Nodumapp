@@ -5,299 +5,558 @@
    =========================== */
 
 /* ---- Layout base ---- */
-.agenda-root.agenda-layout{
-  display:grid;
-  grid-template-columns:270px 1fr;
-  min-height:100vh;
-  background:#ffffff;
-  color:#0f172a;
-  font:400 16px/1.45 "Manrope",ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+.agenda-root.agenda-layout {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  min-height: 100vh;
+  background: #ffffff;
+  color: #0f172a;
+  font: 400 16px/1.45 "Manrope", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
 }
 
 /* ---- Sidebar ---- */
-.agenda-root .agenda-sidebar{
-  position:sticky;top:0;height:100vh;
-  background:#ffffff;
-  border-right:1px solid #e5e7eb;
-  padding:22px 18px;
-  display:flex;flex-direction:column;gap:16px;
+.agenda-root .agenda-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  background: #ffffff;
+  border-right: 1px solid #e5e7eb;
+  padding: 22px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
-.agenda-root .agenda-brand{margin:2px 0 10px 0;background:none;border:0;padding:0;display:flex}
-.agenda-root .agenda-brand img{height:48px;width:auto}
-.agenda-root .agenda-nav{display:flex;flex-direction:column;gap:6px}
-.agenda-root .agenda-link{
-  display:block;padding:10px 12px;border-radius:10px;
-  color:#334155;text-decoration:none;font-weight:600;
+
+.agenda-root .agenda-brand {
+  margin: 2px 0 10px 0;
+  background: none;
+  border: 0;
+  padding: 0;
+  display: flex
 }
-.agenda-root .agenda-link:hover{background:#f3f8ff}
-.agenda-root .agenda-link.active{
-  color:#0b4ea3;
-  background:#eaf2ff;
-  border:1px solid #cfe2ff;
+
+.agenda-root .agenda-brand img {
+  height: 48px;
+  width: auto
 }
-.agenda-root .agenda-sidebar-footer{margin-top:auto;color:#6b7280;font-size:12px}
+
+.agenda-root .agenda-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 6px
+}
+
+.agenda-root .agenda-link {
+  display: block;
+  padding: 10px 12px;
+  border-radius: 10px;
+  color: #334155;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.agenda-root .agenda-link:hover {
+  background: #f3f8ff
+}
+
+.agenda-root .agenda-link.active {
+  color: #0b4ea3;
+  background: #eaf2ff;
+  border: 1px solid #cfe2ff;
+}
+
+.agenda-root .agenda-sidebar-footer {
+  margin-top: auto;
+  color: #6b7280;
+  font-size: 12px
+}
 
 /* ---- Topbar ---- */
-.agenda-root .agenda-main{display:flex;flex-direction:column}
-.agenda-root .agenda-topbar{
-  background:#ffffff;
-  border-bottom:1px solid #e5e7eb;
-  padding:14px 22px;
-  display:flex;align-items:center;justify-content:space-between;
+.agenda-root .agenda-main {
+  display: flex;
+  flex-direction: column
 }
-.agenda-root .agenda-topbar h4{margin:0;font-size:22px;font-weight:800;color:#0f172a}
-.agenda-root .agenda-user{display:flex;align-items:center;gap:12px}
-.agenda-root .agenda-avatar{
-  width:36px;height:36px;border-radius:50%;
-  display:grid;place-items:center;
-  background:#e6f0ff;color:#0b4ea3;font-weight:800;
+
+.agenda-root .agenda-topbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
-.agenda-root .logoutBtn{
-  background:#1e90ff;color:#fff;border:0;
-  padding:10px 14px;border-radius:10px;font-weight:700;
-  box-shadow:0 8px 24px rgba(30,144,255,.25);
+
+.agenda-root .agenda-topbar h4 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a
 }
-.agenda-root .logoutBtn:hover{filter:brightness(.96)}
+
+.agenda-root .agenda-user {
+  display: flex;
+  align-items: center;
+  gap: 12px
+}
+
+.agenda-root .agenda-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #e6f0ff;
+  color: #0b4ea3;
+  font-weight: 800;
+}
+
+.agenda-root .logoutBtn {
+  background: #1e90ff;
+  color: #fff;
+  border: 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 700;
+  box-shadow: 0 8px 24px rgba(30, 144, 255, .25);
+}
+
+.agenda-root .logoutBtn:hover {
+  filter: brightness(.96)
+}
 
 /* ---- Contenido ---- */
-.agenda-root .agenda-content{padding:22px}
+.agenda-root .agenda-content {
+  padding: 22px
+}
 
 /* ---- Cards KPI (como la foto) ---- */
-.agenda-root .cards{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
-.agenda-root .card{
-  grid-column:span 4;
-  background:#ffffff;
-  border:1px solid #e5e7eb;
-  border-radius:14px;
-  padding:16px;
-  box-shadow:
-    0 10px 26px rgba(11,13,20,.06),
-    0 0 0 1px rgba(0,194,255,.06);
+.agenda-root .cards {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px
 }
-.agenda-root .card .kpi{display:flex;align-items:flex-end;justify-content:space-between}
-.agenda-root .card .kpi .label{color:#6b7280;font-weight:700;font-size:14px}
-.agenda-root .card .kpi .value{font-size:40px;font-weight:900;color:#0f172a}
+
+.agenda-root .card {
+  grid-column: span 4;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow:
+    0 10px 26px rgba(11, 13, 20, .06),
+    0 0 0 1px rgba(0, 194, 255, .06);
+}
+
+.agenda-root .card .kpi {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between
+}
+
+.agenda-root .card .kpi .label {
+  color: #6b7280;
+  font-weight: 700;
+  font-size: 14px
+}
+
+.agenda-root .card .kpi .value {
+  font-size: 40px;
+  font-weight: 900;
+  color: #0f172a
+}
 
 /* ---- Panel “Próximos turnos” ---- */
-.agenda-root .list{margin-top:14px;border-top:1px dashed #d1d5db;padding-top:10px}
-.agenda-root .item{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px dashed #d1d5db}
-.agenda-root .item:last-child{border-bottom:none}
-.agenda-root .item .when{display:flex;align-items:center;gap:10px}
+.agenda-root .list {
+  margin-top: 14px;
+  border-top: 1px dashed #d1d5db;
+  padding-top: 10px
+}
+
+.agenda-root .item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px dashed #d1d5db
+}
+
+.agenda-root .item:last-child {
+  border-bottom: none
+}
+
+.agenda-root .item .when {
+  display: flex;
+  align-items: center;
+  gap: 10px
+}
 
 /* Chip de hora (más visible) */
-.agenda-root .badge{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:6px 12px;border-radius:12px;
-  background:#eaf2ff;       /* azul claro */
-  color:#0b4ea3;            /* texto azul oscuro */
-  border:1px solid #cfe2ff; /* borde suave */
-  font-weight:800;letter-spacing:.2px;
-  box-shadow:0 8px 18px rgba(0,138,255,.08);
+.agenda-root .badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 12px;
+  background: #eaf2ff;
+  /* azul claro */
+  color: #0b4ea3;
+  /* texto azul oscuro */
+  border: 1px solid #cfe2ff;
+  /* borde suave */
+  font-weight: 800;
+  letter-spacing: .2px;
+  box-shadow: 0 8px 18px rgba(0, 138, 255, .08);
 }
+
 /* variantes rápidas si querés resaltar alguno */
-.agenda-root .badge.time--mint{background:#d6fff6;color:#006b5e;border-color:#b0ffe9}
-.agenda-root .badge.time--indigo{background:#eef2ff;color:#3730a3;border-color:#c7d2fe}
+.agenda-root .badge.time--mint {
+  background: #d6fff6;
+  color: #006b5e;
+  border-color: #b0ffe9
+}
+
+.agenda-root .badge.time--indigo {
+  background: #eef2ff;
+  color: #3730a3;
+  border-color: #c7d2fe
+}
 
 /* ---- Formularios ---- */
 .agenda-root .form-control,
-.agenda-root .form-select{
-  border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;background:#fff;color:#0f172a;
+.agenda-root .form-select {
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 10px 12px;
+  background: #fff;
+  color: #0f172a;
 }
+
 .agenda-root .form-control:focus,
-.agenda-root .form-select:focus{
-  outline:none;border-color:#b5d8ff;box-shadow:0 0 0 3px #e5f1ff;
+.agenda-root .form-select:focus {
+  outline: none;
+  border-color: #b5d8ff;
+  box-shadow: 0 0 0 3px #e5f1ff;
 }
 
 /* ---- React Big Calendar (limpio y azul) ---- */
-.agenda-root .rbc-calendar{background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 8px 24px rgba(2,6,23,.04)}
-.agenda-root .rbc-toolbar{padding:10px;border-bottom:1px solid #e5e7eb}
-.agenda-root .rbc-toolbar .rbc-btn-group button{border-radius:8px;border:1px solid #e5e7eb;background:#fff}
-.agenda-root .rbc-toolbar .rbc-btn-group button:hover{background:#f3f8ff}
-.agenda-root .rbc-today{background:#eaf2ff !important}
-.agenda-root .rbc-time-slot{border-top:1px dashed #e5e7eb}
-.agenda-root .rbc-event{border-radius:8px;color:#fff;border:0;box-shadow:0 6px 18px rgba(0,0,0,.08)}
+.agenda-root .rbc-calendar {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(2, 6, 23, .04)
+}
+
+.agenda-root .rbc-toolbar {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb
+}
+
+.agenda-root .rbc-toolbar .rbc-btn-group button {
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  background: #fff
+}
+
+.agenda-root .rbc-toolbar .rbc-btn-group button:hover {
+  background: #f3f8ff
+}
+
+.agenda-root .rbc-today {
+  background: #eaf2ff !important
+}
+
+.agenda-root .rbc-time-slot {
+  border-top: 1px dashed #e5e7eb
+}
+
+.agenda-root .rbc-event {
+  border-radius: 8px;
+  color: #fff;
+  border: 0;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, .08)
+}
+
 /* si usás data-color en cada evento */
-.agenda-root .rbc-event[data-color="cyan"]{background:#1e90ff !important}
-.agenda-root .rbc-event[data-color="mint"]{background:#00d5b0 !important}
-.agenda-root .rbc-event[data-color="indigo"]{background:#4f46e5 !important}
+.agenda-root .rbc-event[data-color="cyan"] {
+  background: #1e90ff !important
+}
+
+.agenda-root .rbc-event[data-color="mint"] {
+  background: #00d5b0 !important
+}
+
+.agenda-root .rbc-event[data-color="indigo"] {
+  background: #4f46e5 !important
+}
 
 /* ---- Responsive igual a la captura ---- */
-@media (max-width: 980px){
-  .agenda-root.agenda-layout{grid-template-columns:220px 1fr}
-}
-@media (max-width: 760px){
-  .agenda-root.agenda-layout{grid-template-columns:1fr}
-  .agenda-root .agenda-sidebar{position:static;height:auto;border-right:0;border-bottom:1px solid #e5e7eb}
-  .agenda-root .cards{grid-template-columns:repeat(6,1fr)}
-  .agenda-root .card{grid-column:span 6}
-}
-/* === Modal Nodum (SOLO agenda) === */
-.agenda-root .ndm-modal{
-  position: fixed; inset: 0; z-index: 2000;     /* por encima de todo */
-  display: grid; place-items: center;
+@media (max-width: 980px) {
+  .agenda-root.agenda-layout {
+    grid-template-columns: 220px 1fr
+  }
 }
 
-.agenda-root .ndm-modal__backdrop{
-  position: absolute; inset: 0;
-  background: rgba(5,7,12,.35);
+@media (max-width: 760px) {
+  .agenda-root.agenda-layout {
+    grid-template-columns: 1fr
+  }
+
+  .agenda-root .agenda-sidebar {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e5e7eb
+  }
+
+  .agenda-root .cards {
+    grid-template-columns: repeat(6, 1fr)
+  }
+
+  .agenda-root .card {
+    grid-column: span 6
+  }
+}
+
+/* === Modal Nodum (SOLO agenda) === */
+.agenda-root .ndm-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  /* por encima de todo */
+  display: grid;
+  place-items: center;
+}
+
+.agenda-root .ndm-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 12, .35);
   backdrop-filter: blur(10px);
 }
 
-.agenda-root .ndm-modal__dialog{
+.agenda-root .ndm-modal__dialog {
   position: relative;
   width: min(780px, 92vw);
   background: #fff;
   border: 1px solid #e5e7eb;
   border-radius: 20px;
-  box-shadow: 0 30px 80px rgba(2,6,23,.18);
+  box-shadow: 0 30px 80px rgba(2, 6, 23, .18);
   overflow: hidden;
-  animation: ndmModalIn .28s cubic-bezier(.16,.84,.44,1) both;
+  animation: ndmModalIn .28s cubic-bezier(.16, .84, .44, 1) both;
 }
 
-.agenda-root .ndm-modal__header{
-  display:flex; align-items:center; justify-content:space-between;
-  padding: 16px 18px; border-bottom: 1px solid #e5e7eb;
-}
-.agenda-root .ndm-modal__body{ padding: 18px; }
-.agenda-root .ndm-modal__footer{
-  display:flex; gap:10px; justify-content:flex-end;
-  padding: 14px 18px; border-top: 1px solid #e5e7eb;
+.agenda-root .ndm-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-@keyframes ndmModalIn{
-  from{ opacity:0; transform: translateY(12px) scale(.98); }
-  to  { opacity:1; transform: none; }
+.agenda-root .ndm-modal__body {
+  padding: 18px;
 }
+
+.agenda-root .ndm-modal__footer {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  padding: 14px 18px;
+  border-top: 1px solid #e5e7eb;
+}
+
+@keyframes ndmModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ===================== */
 /* ACCENT NODUM (scoped) */
 /* ===================== */
 
 /* Sidebar con acento sutil */
-.agenda-root .agenda-sidebar{
+.agenda-root .agenda-sidebar {
   background:
-    radial-gradient(120% 110% at -10% 0%, rgba(6,243,201,.08), transparent 60%),
-    radial-gradient(120% 110% at 120% 10%, rgba(0,194,255,.08), transparent 60%),
+    radial-gradient(120% 110% at -10% 0%, rgba(6, 243, 201, .08), transparent 60%),
+    radial-gradient(120% 110% at 120% 10%, rgba(0, 194, 255, .08), transparent 60%),
     #ffffff;
 }
 
 /* Nav item activo con degradé y borde más visible */
-.agenda-root .agenda-link.active{
-  color:#0a3f88;
+.agenda-root .agenda-link.active {
+  color: #0a3f88;
   background: linear-gradient(180deg, #eaf6ff, #ffffff);
   border: 1px solid #bfe0ff;
-  box-shadow: inset 0 0 0 1px rgba(0,162,255,.18);
+  box-shadow: inset 0 0 0 1px rgba(0, 162, 255, .18);
 }
 
 /* Topbar “pill” */
-.agenda-root .agenda-topbar{
+.agenda-root .agenda-topbar {
   background: linear-gradient(180deg, #ffffff, #f9fbff);
   border-bottom: 1px solid #e1e9f5;
 }
 
 /* Avatar con más punch */
-.agenda-root .agenda-avatar{
+.agenda-root .agenda-avatar {
   background: linear-gradient(180deg, #d7ecff, #eaf6ff);
-  color:#0b4ea3;
-  box-shadow: 0 6px 16px rgba(0,138,255,.18);
+  color: #0b4ea3;
+  box-shadow: 0 6px 16px rgba(0, 138, 255, .18);
 }
 
 /* Botón primario (por si lo usás en otros lados) */
-.agenda-root .btn.primary{
+.agenda-root .btn.primary {
   background: linear-gradient(90deg, #06f3c9, #00c2ff, #5a67ff);
-  color:#041018;
-  border:0;
-  box-shadow: 0 10px 26px rgba(0,194,255,.22);
+  color: #041018;
+  border: 0;
+  box-shadow: 0 10px 26px rgba(0, 194, 255, .22);
 }
-.agenda-root .btn.primary:hover{filter:brightness(.98)}
+
+.agenda-root .btn.primary:hover {
+  filter: brightness(.98)
+}
 
 /* ===================== */
 /* React Big Calendar    */
 /* ===================== */
 
 /* Toolbar con botón activo/hover estilo Nodum */
-.agenda-root .rbc-toolbar{
+.agenda-root .rbc-toolbar {
   background: linear-gradient(180deg, #ffffff, #f7fbff);
 }
-.agenda-root .rbc-toolbar .rbc-btn-group button{
-  border-radius:10px;
-  border:1px solid #d7e6f7;
-  background:#fff;
+
+.agenda-root .rbc-toolbar .rbc-btn-group button {
+  border-radius: 10px;
+  border: 1px solid #d7e6f7;
+  background: #fff;
   transition: all .2s ease;
 }
-.agenda-root .rbc-toolbar .rbc-btn-group button:hover{
-  background:#eef7ff;
-  border-color:#c8e2ff;
+
+.agenda-root .rbc-toolbar .rbc-btn-group button:hover {
+  background: #eef7ff;
+  border-color: #c8e2ff;
 }
-.agenda-root .rbc-toolbar .rbc-active{
+
+.agenda-root .rbc-toolbar .rbc-active {
   background: linear-gradient(90deg, #bfefff, #d7fff4);
-  border-color:#9ddfff;
+  border-color: #9ddfff;
 }
 
 /* Día de hoy y selección con acento */
-.agenda-root .rbc-today{ background:#eaf6ff !important }
-.agenda-root .rbc-selected-cell{ background: rgba(0,194,255,.12) !important }
-.agenda-root .rbc-slot-selection{
-  background: linear-gradient(180deg, rgba(0,194,255,.18), rgba(6,243,201,.18));
-  color:#0f172a; border:1px solid #bfe0ff; border-radius:8px;
+.agenda-root .rbc-today {
+  background: #eaf6ff !important
+}
+
+.agenda-root .rbc-selected-cell {
+  background: rgba(0, 194, 255, .12) !important
+}
+
+.agenda-root .rbc-slot-selection {
+  background: linear-gradient(180deg, rgba(0, 194, 255, .18), rgba(6, 243, 201, .18));
+  color: #0f172a;
+  border: 1px solid #bfe0ff;
+  border-radius: 8px;
 }
 
 /* Eventos con sombras y hover */
-.agenda-root .rbc-event{
-  border-radius:10px;
-  color:#fff; border:0;
-  box-shadow: 0 10px 20px rgba(15,23,42,.12);
+.agenda-root .rbc-event {
+  border-radius: 10px;
+  color: #fff;
+  border: 0;
+  box-shadow: 0 10px 20px rgba(15, 23, 42, .12);
   transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
 }
-.agenda-root .rbc-event:hover{
+
+.agenda-root .rbc-event:hover {
   transform: translateY(-1px);
-  box-shadow: 0 16px 28px rgba(15,23,42,.16);
+  box-shadow: 0 16px 28px rgba(15, 23, 42, .16);
   filter: saturate(1.05);
 }
 
 /* Colores predefinidos por data-attr (opcional) */
-.agenda-root .rbc-event[data-color="cyan"]   { background:#1e90ff !important }
-.agenda-root .rbc-event[data-color="mint"]   { background:#00d5b0 !important }
-.agenda-root .rbc-event[data-color="indigo"] { background:#4f46e5 !important }
-.agenda-root .rbc-event[data-color="amber"]  { background:#f59e0b !important }
-.agenda-root .rbc-event[data-color="coral"]  { background:#ff6b6b !important }
+.agenda-root .rbc-event[data-color="cyan"] {
+  background: #1e90ff !important
+}
+
+.agenda-root .rbc-event[data-color="mint"] {
+  background: #00d5b0 !important
+}
+
+.agenda-root .rbc-event[data-color="indigo"] {
+  background: #4f46e5 !important
+}
+
+.agenda-root .rbc-event[data-color="amber"] {
+  background: #f59e0b !important
+}
+
+.agenda-root .rbc-event[data-color="coral"] {
+  background: #ff6b6b !important
+}
 
 /* ===================== */
 /* Modal Nodum           */
 /* ===================== */
 
-.agenda-root .ndm-modal__backdrop{
-  background: radial-gradient(120% 120% at 0% 0%, rgba(0,194,255,.22), transparent 45%),
-              radial-gradient(120% 120% at 100% 0%, rgba(6,243,201,.22), transparent 45%),
-              rgba(5,7,12,.40);
+.agenda-root .ndm-modal__backdrop {
+  background: radial-gradient(120% 120% at 0% 0%, rgba(0, 194, 255, .22), transparent 45%),
+    radial-gradient(120% 120% at 100% 0%, rgba(6, 243, 201, .22), transparent 45%),
+    rgba(5, 7, 12, .40);
   backdrop-filter: blur(10px);
 }
-.agenda-root .ndm-modal__dialog{
-  border:1px solid #e5effa; border-radius:20px;
+
+.agenda-root .ndm-modal__dialog {
+  border: 1px solid #e5effa;
+  border-radius: 20px;
   background:
     linear-gradient(180deg, #ffffff, #fbfeff);
-  box-shadow: 0 30px 80px rgba(2,6,23,.22), 0 0 0 1px rgba(0,194,255,.10) inset;
+  box-shadow: 0 30px 80px rgba(2, 6, 23, .22), 0 0 0 1px rgba(0, 194, 255, .10) inset;
 }
+
 /* Header del modal con línea acentuada */
-.agenda-root .ndm-modal__header{
-  border-bottom:1px solid #e3eefc;
+.agenda-root .ndm-modal__header {
+  border-bottom: 1px solid #e3eefc;
   background: linear-gradient(180deg, #ffffff, #f6fbff);
 }
-.agenda-root .ndm-modal__footer{
-  border-top:1px solid #e3eefc;
-  background:#fbfeff;
+
+.agenda-root .ndm-modal__footer {
+  border-top: 1px solid #e3eefc;
+  background: #fbfeff;
 }
+
 /* Inputs dentro del modal */
 .agenda-root .ndm-modal .form-control,
-.agenda-root .ndm-modal .form-select{
-  border:1px solid #d9e8fa;
+.agenda-root .ndm-modal .form-select {
+  border: 1px solid #d9e8fa;
 }
+
 .agenda-root .ndm-modal .form-control:focus,
-.agenda-root .ndm-modal .form-select:focus{
-  border-color:#9ddfff; box-shadow:0 0 0 4px #e5f3ff;
+.agenda-root .ndm-modal .form-select:focus {
+  border-color: #9ddfff;
+  box-shadow: 0 0 0 4px #e5f3ff;
 }
 
 /* Chips de hora aún más legibles (lista “Próximos turnos”) */
-.agenda-root .badge{
-  background:#eaf2ff; color:#0b4ea3; border:1px solid #cfe2ff;
-  box-shadow: 0 8px 18px rgba(0,138,255,.08);
+.agenda-root .badge {
+  background: #eaf2ff;
+  color: #0b4ea3;
+  border: 1px solid #cfe2ff;
+  box-shadow: 0 8px 18px rgba(0, 138, 255, .08);
+}
+
+/* Solo agenda */
+.agenda-root .clients-toolbar .clients-search {
+  border: 1px solid #d7e6f7;
+  background: #fff;
+}
+
+.agenda-root .clients-toolbar .clients-search:focus {
+  border-color: #9ddfff;
+  box-shadow: 0 0 0 4px #e5f3ff;
 }
